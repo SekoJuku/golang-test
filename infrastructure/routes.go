@@ -6,12 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//GinRouter -> Gin Router
 type GinRouter struct {
 	Gin *gin.Engine
 }
 
-//NewGinRouter all the routes are defined here
 func NewGinRouter() GinRouter {
 
 	httpRouter := gin.Default()

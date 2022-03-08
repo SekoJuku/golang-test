@@ -11,16 +11,40 @@ import (
 	"task/models"
 )
 
-func main() {
-	infrastructure.LoadEnv()                                    // Load env
-	router := infrastructure.NewGinRouter()                     //router has been initialized and configured
-	db := infrastructure.NewDatabase()                          // database has been initialized and configured
-	taskRepository := repository.NewTaskRepository(db)          // repository are being setup
-	taskService := service.NewTaskService(taskRepository)       // service are being setup
-	taskController := controller.NewTaskController(taskService) // controller are being set up
-	taskRoute := routes.NewTaskRoute(taskController, router)    // task routes are initialized
-	taskRoute.Setup()                                           // task routes are being setup
+var (
+	db     infrastructure.Database
+	router infrastructure.GinRouter
+)
 
-	db.DB.AutoMigrate(&models.Task{})                   // migrating Task model to database table
-	log.Fatal(router.Gin.Run(os.Getenv("SERVER_PORT"))) //server started on 8000 port
+func init() {
+	infrastructure.LoadEnv()
+	router = infrastructure.NewGinRouter()
+	db = infrastructure.NewDatabase()
+}
+
+func main() {
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = "8000"
+	}
+	taskRepository := repository.NewTaskRepository(db)
+	taskService := service.NewTaskService(taskRepository)
+	taskController := controller.NewTaskController(taskService)
+	taskRoute := routes.NewTaskRoute(taskController, router)
+	taskRoute.Setup()
+
+	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepository)
+	userController := controller.NewUserController(userService)
+	userRoute := routes.NewUserRoute(userController, router)
+	userRoute.Setup()
+
+	err := db.DB.AutoMigrate(&models.Task{}, &models.User{})
+	if err != nil {
+		log.Fatal("Task didn't migrate to db")
+	}
+
+	if err := router.Gin.Run(":" + port); err != nil {
+		log.Fatal(err)
+	}
 }

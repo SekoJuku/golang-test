@@ -10,19 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//TaskController -> TaskController
 type TaskController struct {
 	service service.TaskService
 }
 
-//NewTaskController : NewTaskController
 func NewTaskController(s service.TaskService) TaskController {
 	return TaskController{
 		service: s,
 	}
 }
 
-// AddTask : AddTask controller
 func (p *TaskController) AddTask(ctx *gin.Context) {
 	var task models.Task
 	ctx.ShouldBindJSON(&task)
@@ -47,7 +44,6 @@ func (p *TaskController) AddTask(ctx *gin.Context) {
 	util.SuccessJSON(ctx, http.StatusCreated, "Successfully Created Task")
 }
 
-//GetTask : get task by id
 func (p *TaskController) GetTask(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseInt(idParam, 10, 64) //type conversion string to int64
@@ -71,7 +67,6 @@ func (p *TaskController) GetTask(c *gin.Context) {
 
 }
 
-//DeleteTask : Deletes Task
 func (p *TaskController) DeleteTask(c *gin.Context) {
 	idParam := c.Param("id")
 	id, err := strconv.ParseInt(idParam, 10, 64) //type conversion string to uint64
@@ -91,7 +86,6 @@ func (p *TaskController) DeleteTask(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-//UpdateTask : get update by id
 func (p TaskController) UpdateTask(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 

@@ -7,12 +7,10 @@ import (
 	"os"
 )
 
-//Database struct
 type Database struct {
 	DB *gorm.DB
 }
 
-//NewDatabase : initializes and returns postgres db
 func NewDatabase() Database {
 	USER := os.Getenv("DB_USER")
 	PASS := os.Getenv("DB_PASSWORD")
@@ -32,5 +30,4 @@ func NewDatabase() Database {
 	return Database{
 		DB: db,
 	}
-
 }

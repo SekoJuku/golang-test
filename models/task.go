@@ -11,12 +11,10 @@ type Task struct {
 	UpdatedAt   time.Time `json:"updated_at,omitempty"`
 }
 
-// TableName method sets table name for Post model
 func (post *Task) TableName() string {
 	return "tasks"
 }
 
-//ResponseMap -> response map method of Post
 func (post *Task) ResponseMap() map[string]interface{} {
 	resp := make(map[string]interface{})
 	resp["id"] = post.ID

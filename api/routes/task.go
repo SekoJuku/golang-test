@@ -5,13 +5,11 @@ import (
 	"task/infrastructure"
 )
 
-//TaskRoute -> Route for question module
 type TaskRoute struct {
 	Controller controller.TaskController
 	Handler    infrastructure.GinRouter
 }
 
-//NewTaskRoute -> initializes new choice routes
 func NewTaskRoute(
 	controller controller.TaskController,
 	handler infrastructure.GinRouter,
@@ -22,9 +20,8 @@ func NewTaskRoute(
 	}
 }
 
-//Setup -> setups new choice Routes
 func (p TaskRoute) Setup() {
-	task := p.Handler.Gin.Group("/tasks") //Router group
+	task := p.Handler.Gin.Group("/tasks")
 	{
 		task.POST("/", p.Controller.AddTask)
 		task.GET("/:id", p.Controller.GetTask)
