@@ -1,9 +1,8 @@
 package infrastructure
 
 import (
-	"log"
-
 	"github.com/joho/godotenv"
+	"log"
 )
 
 //LoadEnv loads environment variables from .env file

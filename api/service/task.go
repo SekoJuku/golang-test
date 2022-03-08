@@ -17,24 +17,24 @@ func NewTaskService(r repository.TaskRepository) TaskService {
 	}
 }
 
-//Save -> calls post repository save method
-func (p TaskService) Save(post models.Task) error {
-	return p.repository.Save(post)
+//Save -> calls task repository save method
+func (p TaskService) Save(task models.Task) error {
+	return p.repository.Save(task)
 }
 
-// Update -> calls postrepo update method
-func (p TaskService) Update(post models.Task) error {
-	return p.repository.Update(post)
+// Update -> calls taskrepo update method
+func (p TaskService) Update(task models.Task) error {
+	return p.repository.Update(task)
 }
 
-// Delete -> calls post repo delete method
+// Delete -> calls task repo delete method
 func (p TaskService) Delete(id int64) error {
-	var post models.Task
-	post.ID = id
-	return p.repository.Delete(post)
+	var task models.Task
+	task.ID = id
+	return p.repository.Delete(task)
 }
 
-// Find -> calls post repo find method
-func (p TaskService) Find(post models.Task) (models.Task, error) {
-	return p.repository.Find(post)
+// Find -> calls task repo find method
+func (p TaskService) Find(task models.Task) (models.Task, error) {
+	return p.repository.Find(task)
 }
